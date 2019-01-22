@@ -1,5 +1,5 @@
 # CheckCancel
-[[Source]<br>](https://github.com/ripple/rippled/blob/develop/src/ripple/app/tx/impl/CancelCheck.cpp "Source") <!--{# TODO: change from develop to master when 0.90.0 is released #}-->
+[[Source]<br>](https://github.com/ripple/rippled/blob/master/src/ripple/app/tx/impl/CancelCheck.cpp "Source") <!--{# TODO: change from develop to master when 0.90.0 is released #}-->
 
 _Requires the [Checks Amendment](known-amendments.html#checks)._
 
@@ -18,9 +18,6 @@ Cancels an unredeemed Check, removing it from the ledger without sending any mon
 
 {% include '_snippets/tx-fields-intro.md' %}
 <!--{# fix md highlighting_ #}-->
-
-
-In addition to the [common fields](transaction-common-fields.html), a CheckCancel transaction has the following:
 
 | Field       | JSON Type | [Internal Type][] | Description                    |
 |:------------|:----------|:------------------|:-------------------------------|

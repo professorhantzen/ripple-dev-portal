@@ -31,7 +31,7 @@ default_filters:
 callout_class: "devportal-callout"
 
 cover_page:
-    name: Overview
+    name: Home
     html: index.html
     template: template-home.html
     sidebar: disabled
@@ -45,12 +45,30 @@ targets:
         github_forkurl: https://github.com/ripple/ripple-dev-portal
         github_branch: master
         recently_updated:
-            - html: technical-faq.html
-              date: 2018-05-11
-            - html: cross-currency-payments.html
-              date: 2018-05-10
-            - html: capacity-planning.html
-              date: 2018-05-04
+            - html: transaction-malleability.html
+              date: 2019-01-14
+            - html: ledger-history.html
+              date: 2019-01-14
+            - html: online-deletion.html
+              date: 2019-01-14
+            - html: configure-online-deletion.html
+              date: 2019-01-14
+            - html: configure-advisory-deletion.html
+              date: 2019-01-14
+            - html: configure-full-history.html
+              date: 2019-01-14
+            - html: list-your-exchange-on-xrp-charts.html
+              date: 2019-01-11
+
+    # Data API target for porting changes to the README in the upstream repo
+    # Intended for use in markdown (--md) mode.
+    -   name: data-api-only
+        display_name: XRP Ledger Data API
+        github_forkurl: https://github.com/ripple/ripple-dev-portal
+        github_branch: master
+        no_cover: True
+        link_re_subs:
+           "([\\w-]+\\.html)": https://developers.ripple.com/\1
 
 pages:
 
@@ -92,13 +110,12 @@ pages:
         targets:
             - local
 
-        #TODO: DOC-1503: replace this with a more concise intro to consensus
-    -   md: concepts/introduction/consensus.md
-        html: consensus.html
+    -   md: concepts/introduction/intro-to-consensus.md
+        html: intro-to-consensus.html
         funnel: Docs
         doc_type: Concepts
         category: Introduction
-        blurb: Understand the role of consensus in the XRP Ledger.
+        blurb: Develop a basic understanding of the XRP Ledger's consensus mechanism.
         targets:
             - local
 
@@ -189,6 +206,15 @@ pages:
         targets:
             - local
 
+    -   md: concepts/payment-system-basics/ledgers.md
+        html: ledgers.html
+        funnel: Docs
+        doc_type: Concepts
+        category: Payment System Basics
+        blurb: The XRP Ledger is composed of a series of individual ledgers, or ledger versions, which rippled keeps in its internal database. Learn about the structure and contents of these ledgers.
+        targets:
+            - local
+
     -   md: concepts/payment-system-basics/transaction-basics/transaction-basics.md
         html: transaction-basics.html
         funnel: Docs
@@ -245,7 +271,7 @@ pages:
         funnel: Docs
         doc_type: Concepts
         category: Complex Payment Types
-        blurb: Checks let users to create deferred payments that can be canceled or cashed by the intended recipients.
+        blurb: Checks let users create deferred payments that can be canceled or cashed by the intended recipients.
         targets:
             - local
 
@@ -276,13 +302,22 @@ pages:
         targets:
             - local
 
-    -   md: concepts/issued-currencies/issued-currencies.md
+    -   name: Issued Currencies
         html: issued-currencies.html
         funnel: Docs
         doc_type: Concepts
         category: Issued Currencies
         template: template-landing-children.html
         blurb: All currencies other than XRP can be represented in the XRP Ledger as issued currencies. Learn more about how issued currencies function in the XRP Ledger.
+        targets:
+            - local
+
+    -   md: concepts/issued-currencies/issued-currencies-overview.md
+        html: issued-currencies-overview.html
+        funnel: Docs
+        doc_type: Concepts
+        category: Issued Currencies
+        blurb: Get an overview of issued currencies and their properties in the XRP Ledger.
         targets:
             - local
 
@@ -300,6 +335,7 @@ pages:
         funnel: Docs
         doc_type: Concepts
         category: Issued Currencies
+        blurb: Learn about authorized trust lines, which enable a currency issuer to limit who can hold its issued (non-XRP) currencies.
         targets:
             - local
 
@@ -404,14 +440,12 @@ pages:
         targets:
             - local
 
-    # TODO: validators & UNLs
-
-    -   md: concepts/consensus-network/amendments.md
-        html: amendments.html
+    -   md: concepts/consensus-network/consensus.md
+        html: consensus.html
         funnel: Docs
         doc_type: Concepts
         category: Consensus Network
-        blurb: Amendments represent new features or other changes to transaction processing. Validators coordinate through consensus to apply these upgrades to the XRP Ledger in an orderly fashion.
+        blurb: Understand the role of consensus in the XRP Ledger.
         targets:
             - local
 
@@ -423,6 +457,42 @@ pages:
         blurb: The rules and principles of the consensus algorithm that allow users to transfer funds (including fiat currencies, digital currencies and other forms of value) across national boundaries as seamlessly as sending an email.
         targets:
           - local
+
+    -   md: concepts/consensus-network/consensus-protections.md
+        html: consensus-protections.html
+        funnel: Docs
+        doc_type: Concepts
+        category: Consensus Network
+        blurb: Learn how the XRP Ledger Consensus Protocol is protected against various problems and attacks that may occur in a decentralized financial system.
+        targets:
+            - local
+
+    -   md: concepts/consensus-network/transaction-queue.md
+        html: transaction-queue.html
+        funnel: Docs
+        doc_type: Concepts
+        category: Consensus Network
+        blurb: Understand how transactions can be queued before reaching consensus.
+        targets:
+            - local
+
+    -   md: concepts/consensus-network/transaction-malleability.md
+        html: transaction-malleability.html
+        funnel: Docs
+        doc_type: Concepts
+        category: Consensus Network
+        blurb: Be aware of ways transactions could be changed to have a different hash than expected.
+        targets:
+            - local
+
+    -   md: concepts/consensus-network/amendments.md
+        html: amendments.html
+        funnel: Docs
+        doc_type: Concepts
+        category: Consensus Network
+        blurb: Amendments represent new features or other changes to transaction processing. Validators coordinate through consensus to apply these upgrades to the XRP Ledger in an orderly fashion.
+        targets:
+            - local
 
     -   md: concepts/consensus-network/fee-voting.md
         html: fee-voting.html
@@ -453,13 +523,22 @@ pages:
         targets:
           - local
 
-    -   md: concepts/the-rippled-server/the-rippled-server.md
+    -   name: The rippled Server
         html: the-rippled-server.html
         funnel: Docs
         doc_type: Concepts
         category: The rippled Server
         template: template-landing-children.html
         blurb: rippled is the core peer-to-peer server that manages the XRP Ledger. This section covers concepts that help you learn the "what" and "why" behind fundamental aspects of the rippled server.
+        targets:
+            - local
+
+    -   md: concepts/the-rippled-server/rippled-server-modes.md
+        html: rippled-server-modes.html
+        funnel: Docs
+        doc_type: Concepts
+        category: The rippled Server
+        blurb: Learn about rippled server modes, including stock servers, validator servers, and rippled servers run in stand-alone mode.
         targets:
             - local
 
@@ -472,11 +551,32 @@ pages:
         targets:
             - local
 
-    -   md: concepts/the-rippled-server/history-sharding.md
+    -   md: concepts/the-rippled-server/ledger-history/ledger-history.md
+        html: ledger-history.html
+        funnel: Docs
+        doc_type: Concepts
+        category: The rippled Server
+        subcategory: Ledger History
+        blurb: rippled servers store a variable amount of transaction and state history locally.
+        targets:
+            - local
+
+    -   md: concepts/the-rippled-server/ledger-history/online-deletion.md
+        html: online-deletion.html
+        funnel: Docs
+        doc_type: Concepts
+        category: The rippled Server
+        subcategory: Ledger History
+        blurb: Online deletion purges outdated transaction and state history.
+        targets:
+            - local
+
+    -   md: concepts/the-rippled-server/ledger-history/history-sharding.md
         html: history-sharding.html
         funnel: Docs
         doc_type: Concepts
         category: The rippled Server
+        subcategory: Ledger History
         blurb: History sharding divides the work of keeping historical ledger data among rippled servers.
         targets:
             - local
@@ -489,16 +589,6 @@ pages:
         blurb: The peer protocol specifies the language rippled servers speak to each other.
         targets:
             - local
-
-    -   md: concepts/the-rippled-server/stand-alone-mode.md
-        html: stand-alone-mode.html
-        funnel: Docs
-        doc_type: Concepts
-        category: The rippled Server
-        blurb: Stand-alone mode provides a way to test rippled servers without connecting to a network of peers.
-        targets:
-            - local
-
 
 # Tutorials --------------------------------------------------------------------
 
@@ -543,13 +633,13 @@ pages:
 
     # TODO: Get Started with API Tools
 
-    -   md: tutorials/use-simple-xrp-payments/use-simple-xrp-payments.md
+    -   name: Use Simple XRP Payments
         html: use-simple-xrp-payments.html
         funnel: Docs
         doc_type: Tutorials
         category: Use Simple XRP Payments
         template: template-landing-children.html
-        blurb: Send and receive XRP Ledger transactions securely and robustly.
+        blurb: Direct XRP payments from one account to another are the simplest way to transact in the XRP Ledger. This section includes tutorials for how to use simple transactions proficiently and robustly.
         targets:
             - local
 
@@ -643,13 +733,13 @@ pages:
         targets:
             - local
 
-    -   md: tutorials/use-complex-payment-types/use-escrows/use-escrows.md
+    -   name: Use Escrows
         html: use-escrows.html
         funnel: Docs
         doc_type: Tutorials
         category: Use Complex Payment Types
         subcategory: Use Escrows
-        blurb: The XRP Ledger supports held payments, or _escrows_, that can be executed only after a certain time has passed or a cryptographic condition has been fulfilled. Escrows can only send XRP, not issued currencies. You can use these features to build publicly-provable smart contracts. This article explains basic tasks relating to held payments.
+        blurb: The XRP Ledger supports held payments, or escrows, that can be executed only after a certain time has passed or a cryptographic condition has been fulfilled. Escrows can only send XRP, not issued currencies. You can use these features to build publicly-provable smart contracts. This sections explains basic tasks relating to held payments.
         template: template-landing-children.html
         targets:
             - local
@@ -660,6 +750,7 @@ pages:
         doc_type: Tutorials
         category: Use Complex Payment Types
         subcategory: Use Escrows
+        blurb: Create an escrow whose only condition for release is that a specific time has passed.
         targets:
             - local
 
@@ -669,6 +760,7 @@ pages:
         doc_type: Tutorials
         category: Use Complex Payment Types
         subcategory: Use Escrows
+        blurb: Create an escrow whose release is based on a condition being fulfilled.
         targets:
             - local
 
@@ -678,6 +770,7 @@ pages:
         doc_type: Tutorials
         category: Use Complex Payment Types
         subcategory: Use Escrows
+        blurb: Cancel an expired escrow.
         targets:
             - local
 
@@ -687,6 +780,7 @@ pages:
         doc_type: Tutorials
         category: Use Complex Payment Types
         subcategory: Use Escrows
+        blurb: Look up pending escrows by sender or destination address.
         targets:
             - local
 
@@ -781,12 +875,12 @@ pages:
     # TODO: Set up issuing/operational addresses, monitor changes to balances,
     # freeze, enable/disable rippling, set transfer fees, use auth'd trust lines
 
-    -   md: tutorials/xrp-ledger-businesses/xrp-ledger-businesses.md
+    -   name: XRP Ledger Businesses
         html: xrp-ledger-businesses.html
         funnel: Docs
         doc_type: Tutorials
         category: XRP Ledger Businesses
-        blurb: Follow best practices for businesses that use the XRP Ledger, such as exchanges and gateways.
+        blurb: This section demonstrates how to follow various best practices for running businesses that interface with the XRP Ledger, such as exchanges listing XRP and gateways issuing currency in the XRP Ledger.
         template: template-landing-children.html
         targets:
             - local
@@ -796,6 +890,16 @@ pages:
         funnel: Docs
         doc_type: Tutorials
         category: XRP Ledger Businesses
+        blurb: Using a fictitious business called Alpha Exchange, this tutorial demonstrates the high-level steps required to list XRP.
+        targets:
+            - local
+
+    -   md: tutorials/xrp-ledger-businesses/list-your-exchange-on-xrp-charts.md
+        html: list-your-exchange-on-xrp-charts.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: XRP Ledger Businesses
+        blurb: This tutorial describes how to have your exchange and its XRP trade and order book data listed on XRP Charts.
         targets:
             - local
 
@@ -804,6 +908,7 @@ pages:
         funnel: Docs
         doc_type: Tutorials
         category: XRP Ledger Businesses
+        blurb: Gateways are the businesses that link the XRP Ledger to the rest of the world. This tutorial demonstrates how an existing online financial institution can expand to act as a gateway in the the XRP Ledger.
         targets:
             - local
 
@@ -814,85 +919,295 @@ pages:
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
-        blurb: Build, install, and run the rippled server. Configure it to your use case and troubleshoot problems.
+        blurb: A system admin's guide to setting up and maintaining the rippled server.
         template: template-landing-children.html
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/capacity-planning.md
-        html: capacity-planning.html
-        funnel: Docs
-        doc_type: Tutorials
-        category: Manage the rippled Server
-        targets:
-            - local
-
-    -   md: tutorials/manage-the-rippled-server/install-rippled.md
+    -   name: Install rippled
         html: install-rippled.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Set up and update the rippled server.
+        template: template-landing-children.html
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/update-rippled.md
-        html: update-rippled.html
+    -   md: tutorials/manage-the-rippled-server/installation/system-requirements.md
+        html: system-requirements.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Hardware and software requirements for running rippled.
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/cluster-rippled-servers.md
-        html: cluster-rippled-servers.html
+    -   md: tutorials/manage-the-rippled-server/installation/install-rippled-on-centos-rhel-with-yum.md
+        html: install-rippled-on-centos-rhel-with-yum.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Install a precompiled rippled binary on CentOS or Red Hat Enterprise Linux.
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/run-rippled-as-a-validator.md
-        html: run-rippled-as-a-validator.html
+    -   md: tutorials/manage-the-rippled-server/installation/install-rippled-on-ubuntu-with-alien.md
+        html: install-rippled-on-ubuntu-with-alien.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Install a precompiled rippled binary on Ubuntu Linux.
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/start-a-new-genesis-ledger-in-stand-alone-mode.md
-        html: start-a-new-genesis-ledger-in-stand-alone-mode.html
+    -   md: tutorials/manage-the-rippled-server/installation/update-rippled-automatically-on-centos-rhel.md
+        html: update-rippled-automatically-on-centos-rhel.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Set up automatic updates for rippled on CentOS or Red Hat Enterprise Linux.
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/load-a-saved-ledger-in-stand-alone-mode.md
-        html: load-a-saved-ledger-in-stand-alone-mode.html
+    -   md: tutorials/manage-the-rippled-server/installation/update-rippled-manually-on-centos-rhel.md
+        html: update-rippled-manually-on-centos-rhel.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Manually update rippled on CentOS or Red Hat Enterprise Linux.
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/advance-the-ledger-in-stand-alone-mode.md
-        html: advance-the-ledger-in-stand-alone-mode.html
+    -   md: tutorials/manage-the-rippled-server/installation/update-rippled-manually-on-ubuntu.md
+        html: update-rippled-manually-on-ubuntu.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Manually update rippled on Ubuntu Linux.
         targets:
             - local
 
-    -   md: tutorials/manage-the-rippled-server/build-run-rippled-ubuntu.md
+    -   md: tutorials/manage-the-rippled-server/installation/build-run-rippled-ubuntu.md
         html: build-run-rippled-ubuntu.html
         funnel: Docs
         doc_type: Tutorials
         category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Compile rippled yourself on Ubuntu Linux.
         targets:
             - local
 
-    # TODO: troubleshoot rippled,
-    #  run a validator, run in stand-alone mode, set up private peers
+    -   md: tutorials/manage-the-rippled-server/installation/build-run-rippled-macos.md
+        html: build-run-rippled-macos.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Compile rippled yourself on macOS.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/installation/capacity-planning.md
+        html: capacity-planning.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Installation
+        blurb: Plan system specs and tune configuration for rippled in production environments.
+        targets:
+            - local
+
+    -   name: Configure rippled
+        html: configure-rippled.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Customize your rippled server configuration.
+        template: template-landing-children.html
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/run-rippled-as-a-validator.md
+        html: run-rippled-as-a-validator.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Have your server vote on the consensus ledger.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/connect-your-rippled-to-the-xrp-test-net.md
+        html: connect-your-rippled-to-the-xrp-test-net.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Connect your rippled server to the test net to try out new features or test functionality with fake money.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/cluster-rippled-servers.md
+        html: cluster-rippled-servers.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Set up a group of servers that share work for higher efficiency.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/configure-online-deletion.md
+        html: configure-online-deletion.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Configure how far back your server should store transaction history.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/configure-advisory-deletion.md
+        html: configure-advisory-deletion.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Use advisory deletion to delete older ledger history on a schedule rather than as new history becomes available.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/configure-history-sharding.md
+        html: configure-history-sharding.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Set up a server to contribute to preserving shards of historical XRP Ledger data.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/configure-full-history.md
+        html: configure-full-history.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Full history servers provide a record of every transaction ever to occur in the XRP Ledger, although they are expensive to run.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/configuration/enable-public-signing.md
+        html: enable-public-signing.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Configuration
+        blurb: Allow others to use your server to sign transactions. (Not recommended)
+        targets:
+            - local
+
+    -   name: Use rippled in Stand-Alone Mode
+        html: use-stand-alone-mode.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Stand-Alone Mode
+        blurb: Use rippled's Stand Alone Mode for testing new features or configurations.
+        template: template-landing-children.html
+        targets:
+            - local
+
+
+    -   md: tutorials/manage-the-rippled-server/stand-alone-mode/start-a-new-genesis-ledger-in-stand-alone-mode.md
+        html: start-a-new-genesis-ledger-in-stand-alone-mode.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Stand-Alone Mode
+        blurb: Start from a fresh genesis ledger in stand-alone mode.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/stand-alone-mode/load-a-saved-ledger-in-stand-alone-mode.md
+        html: load-a-saved-ledger-in-stand-alone-mode.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Stand-Alone Mode
+        blurb: Start in stand-alone mode from a specific saved ledger to test or replay transactions.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/stand-alone-mode/advance-the-ledger-in-stand-alone-mode.md
+        html: advance-the-ledger-in-stand-alone-mode.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Stand-Alone Mode
+        blurb: Make progress in stand-alone mode by manually closing the ledger.
+        targets:
+            - local
+
+
+    -   name: Troubleshooting rippled
+        html: troubleshoot-the-rippled-server.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Troubleshooting rippled
+        blurb: Troubleshoot all kinds of problems with the rippled server.
+        template: template-landing-children.html
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/troubleshooting/diagnosing-problems.md
+        html: diagnosing-problems.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Troubleshooting rippled
+        blurb: Collect information to identify the cause of problems.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/troubleshooting/understanding-log-messages.md
+        html: understanding-log-messages.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Troubleshooting rippled
+        blurb: Interpret and respond to warning and error messages in the debug log.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/troubleshooting/server-wont-start.md
+        html: server-wont-start.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Troubleshooting rippled
+        blurb: A collection of problems that would cause a rippled server not to start, and how to fix them.
+        targets:
+            - local
+
+    -   md: tutorials/manage-the-rippled-server/troubleshooting/fix-sqlite-tx-db-page-size-issue.md
+        html: fix-sqlite-tx-db-page-size-issue.html
+        funnel: Docs
+        doc_type: Tutorials
+        category: Manage the rippled Server
+        subcategory: Troubleshooting rippled
+        targets:
+            - local
 
 # References -------------------------------------------------------------------
 
@@ -908,7 +1223,7 @@ pages:
 
     # rippled API --------------------------------------------------------------
 
-    -   md: references/rippled-api/rippled-api.md
+    -   name: rippled API Reference
         html: rippled-api.html
         funnel: Docs
         doc_type: References
@@ -929,14 +1244,25 @@ pages:
         targets:
             - local
 
-    -  md: references/rippled-api/api-conventions/basic-data-types.md
-       html: basic-data-types.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/basic-data-types.md
+        html: basic-data-types.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Format and meaning of fundamental data types like addresses, ledger index, and currency codes.
+        targets:
+            - local
+
+    -   md: references/rippled-api/api-conventions/base58-encodings.md
+        html: base58-encodings.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Formats for representing cryptographic keys and related data in base58 format.
+        targets:
+            - local
 
     -   md: references/rippled-api/api-conventions/currency-formats.md
         html: currency-formats.html
@@ -944,62 +1270,79 @@ pages:
         doc_type: References
         supercategory: rippled API
         category: API Conventions
+        blurb: Precision and range for currency numbers, plus formats of custom currency codes.
         targets:
             - local
 
-    -  md: references/rippled-api/api-conventions/error-formatting.md
-       html: error-formatting.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/error-formatting.md
+        html: error-formatting.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Error formats and common error codes for WebSocket, JSON-RPC, and Commandline interfaces.
+        targets:
+            - local
 
-    -  md: references/rippled-api/api-conventions/markers-and-pagination.md
-       html: markers-and-pagination.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/markers-and-pagination.md
+        html: markers-and-pagination.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Convention for paginating large queries into multiple responses.
+        targets:
+            - local
 
-    -  md: references/rippled-api/api-conventions/modifying-the-ledger.md
-       html: modifying-the-ledger.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/modifying-the-ledger.md
+        html: modifying-the-ledger.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Why and how only transactions can modify the ledger.
+        targets:
+            - local
 
-    -  md: references/rippled-api/api-conventions/request-formatting.md
-       html: request-formatting.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/request-formatting.md
+        html: request-formatting.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Standard request format, with examples, for the WebSocket, JSON-RPC, and Commandline interfaces.
+        targets:
+            - local
 
-    -  md: references/rippled-api/api-conventions/response-formatting.md
-       html: response-formatting.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/response-formatting.md
+        html: response-formatting.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Standard response format, with examples, for the WebSocket, JSON-RPC, and Commandline interfaces.
+        targets:
+            - local
 
-    -  md: references/rippled-api/api-conventions/rippled-server-states.md
-       html: rippled-server-states.html
-       funnel: Docs
-       doc_type: References
-       supercategory: rippled API
-       category: API Conventions
-       targets:
-         - local
+    -   md: references/rippled-api/api-conventions/rippled-server-states.md
+        html: rippled-server-states.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Definitions of state information reported in some API methods.
+        targets:
+            - local
+
+    -   md: references/rippled-api/api-conventions/serialization.md
+        html: serialization.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: API Conventions
+        blurb: Conversion between JSON and canonical binary format for XRP Ledger transactions and other objects.
+        targets:
+            - local
 
 # rippled Public Methods
 
@@ -1010,7 +1353,6 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         blurb: Get data from the XRP Ledger and submit transactions using these public API methods.
-        template: template-landing-children.html
         targets:
             - local
 
@@ -1021,8 +1363,8 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Account Methods
-        blurb: An Account in the XRP Ledger represents a holder of XRP and a sender of transactions. Accounts can send and receive XRP and issued assets, participate in the decentralized exchange, and change their own settings. Creating an account involves generating keys and then receiving XRP from another account.
         template: template-landing-children.html
+        blurb: An account in the XRP Ledger represents a holder of XRP and a sender of transactions. Use these methods to work with account info.
         targets:
             - local
 
@@ -1132,7 +1474,7 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Ledger Methods
-        blurb: Each rippled server keeps a complete copy of the XRP Ledger's current state, which contains all the accounts, transactions, offers, and other data in the network in an optimized tree format. As transactions and offers are proposed, each server incorporates them into its current copy of the ledger, closes it periodically, and (if configured) participates in advancing the globally-validated version. After the network reaches consensus, that ledger version is validated and becomes permanently immutable. Any transactions that were not included in one ledger version become candidates to be included in the next validated version.
+        blurb: A ledger version contains a header, a transaction tree, and a state tree, which contain account settings, trustlines, balances, transactions, and other data. Use these methods to retrieve ledger info.
         template: template-landing-children.html
         targets:
             - local
@@ -1200,7 +1542,7 @@ pages:
         category: Public rippled Methods
         subcategory: Transaction Methods
         template: template-landing-children.html
-        blurb: Transactions are the only thing that can modify the shared state of the XRP Ledger. All business on the XRP Ledger takes the form of transactions, which include not only payments, but also currency-exchange offers, account settings, and changes to the properties of the ledger itself (like adopting new features).
+        blurb: Transactions are the only thing that can modify the shared state of the XRP Ledger. All business on the XRP Ledger takes the form of transactions. Use these methods to work with transactions.
         targets:
             - local
 
@@ -1288,7 +1630,7 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Path and Order Book Methods
-        blurb: In the XRP Ledger, paths define a way for payments to flow through intermediary steps on their way from sender to receiver. Paths enable cross-currency payments by connecting sender and receiver through order books.
+        blurb: Paths define a way for payments to flow through intermediary steps on their way from sender to receiver. Paths enable cross-currency payments by connecting sender and receiver through order books. Use these methods to work with paths and other books.
         template: template-landing-children.html
         targets:
             - local
@@ -1301,6 +1643,17 @@ pages:
         category: Public rippled Methods
         subcategory: Path and Order Book Methods
         blurb: Get info about offers to exchange two currencies.
+        targets:
+            - local
+
+    -   md: references/rippled-api/public-rippled-methods/path-and-order-book-methods/deposit_authorized.md
+        html: deposit_authorized.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: Public rippled Methods
+        subcategory: Path and Order Book Methods
+        blurb: Check whether an account is authorized to send money directly to another.
         targets:
             - local
 
@@ -1333,7 +1686,7 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Payment Channel Methods
-        blurb: Payment channels are a tool for facilitating repeated, unidirectional payments, or temporary credit between two parties. Learn about methods that work on payment channels.
+        blurb: Payment channels are a tool for facilitating repeated, unidirectional payments, or temporary credit between two parties. Use these methods to work with payment channels.
         template: template-landing-children.html
         targets:
             - local
@@ -1367,7 +1720,7 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Subscription Methods
-        blurb: Using subscriptions, you can have the server push updates to your client when various events happen, so that you can know and react right away. Subscriptions are only supported in the WebSocket API, where you can receive additional responses in the same channel. JSON-RPC support for subscription callbacks is deprecated and may not work as expected.
+        blurb: Use these methods to enable the server to push updates to your client when various events happen, so that you can know and react right away. WebSocket API only.
         template: template-landing-children.html
         targets:
             - local
@@ -1401,7 +1754,7 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Server Info Methods
-        blurb: Learn about methods that enable you to retrieve information about the current state of the rippled server. These may be useful for monitoring the health of the server, or in preparing to make requests to other API methods.
+        blurb: Use these methods to retrieve information about the current state of the rippled server.
         template: template-landing-children.html
         targets:
             - local
@@ -1446,7 +1799,7 @@ pages:
         supercategory: rippled API
         category: Public rippled Methods
         subcategory: Utility Methods
-        blurb: Learn about methods that provide convenient functions, such as ping and a random number generator.
+        blurb: Use these methods to perform convenient tasks, such as ping and random number generation.
         template: template-landing-children.html
         targets:
             - local
@@ -1492,7 +1845,6 @@ pages:
         supercategory: rippled API
         category: Admin rippled Methods
         blurb: Administer a rippled server with these admin API methods.
-        template: template-landing-children.html
         targets:
             - local
 
@@ -1553,6 +1905,17 @@ pages:
         targets:
           - local
 
+    -   md: references/rippled-api/admin-rippled-methods/logging-and-data-management-methods/download_shard.md
+        html: download_shard.html
+        blurb: Download a specific shard of ledger history.
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: Admin rippled Methods
+        subcategory: Logging and Data Management Methods
+        targets:
+          - local
+
     -   md: references/rippled-api/admin-rippled-methods/logging-and-data-management-methods/ledger_cleaner.md
         html: ledger_cleaner.html
         blurb: Configure the ledger cleaner service to check for corrupted data.
@@ -1598,7 +1961,7 @@ pages:
           - local
 
     -   name: Server Control Methods
-        html: server-and-control-methods.html
+        html: server-control-methods.html
         blurb: Use these methods to manage the rippled server.
         funnel: Docs
         doc_type: References
@@ -1754,7 +2117,7 @@ pages:
         targets:
           - local
 
-    -   md: references/rippled-api/ledger-data-formats/ledger-data-formats.md
+    -   name: Ledger Data Formats
         html: ledger-data-formats.html
         funnel: Docs
         doc_type: References
@@ -1775,7 +2138,17 @@ pages:
         targets:
             - local
 
-    -   md: references/rippled-api/ledger-data-formats/ledger-object-types/ledger-object-types.md
+    -   md: references/rippled-api/ledger-data-formats/ledger-object-ids.md
+        html: ledger-object-ids.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: Ledger Data Formats
+        blurb: All objects in a ledger's state tree have a unique ID.
+        targets:
+            - local
+
+    -   name: Ledger Object Types
         html: ledger-object-types.html
         funnel: Docs
         doc_type: References
@@ -1783,7 +2156,7 @@ pages:
         category: Ledger Data Formats
         subcategory: Ledger Object Types
         template: template-landing-children.html #TODO: consider dropping the md since the page children handles this OK
-        blurb: Specifications for the types of objects that can be stored in a ledger's state tree.
+        blurb: Each ledger's state tree consists of a set of ledger objects, which collectively represent all settings, balances, and relationships in the shared ledger. In the peer protocol that rippled servers use to communicate with each other, ledger objects are represented in their raw binary format. In the rippled API, ledger objects are represented as JSON objects.
         targets:
             - local
 
@@ -1817,6 +2190,17 @@ pages:
         category: Ledger Data Formats
         subcategory: Ledger Object Types
         blurb: A check that can be redeemed for money by its destination.
+        targets:
+            - local
+
+    -   md: references/rippled-api/ledger-data-formats/ledger-object-types/depositpreauth.md
+        html: depositpreauth-object.html #depositpreauth.html is taken by the tx type
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: Ledger Data Formats
+        subcategory: Ledger Object Types
+        blurb: A record of preauthorization for sending payments to an account that requires authorization.
         targets:
             - local
 
@@ -1982,6 +2366,17 @@ pages:
         category: Transaction Formats
         subcategory: Transaction Types
         blurb: Create a check.
+        targets:
+            - local
+
+    -   md: references/rippled-api/transaction-formats/transaction-types/depositpreauth.md
+        html: depositpreauth.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: Transaction Formats
+        subcategory: Transaction Types
+        blurb: Preauthorizes an account to send payments to this one.
         targets:
             - local
 
@@ -2158,7 +2553,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
-        blurb: All possible transaction result codes and their meanings.
+        blurb: Learn how to interpret rippled server transaction results.
         targets:
             - local
 
@@ -2169,6 +2564,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
+        blurb: tec codes indicate that the transaction failed, but it was applied to a ledger to deduct the transaction cost.
         targets:
             - local
 
@@ -2179,6 +2575,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
+        blurb: tef codes indicate that the transaction failed and was not included in a ledger, but the transaction could have succeeded in some theoretical ledger.
         targets:
             - local
 
@@ -2189,6 +2586,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
+        blurb: tel codes indicate an error in the local server processing the transaction.
         targets:
             - local
 
@@ -2199,6 +2597,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
+        blurb: tem codes indicate that the transaction was malformed, and cannot succeed according to the XRP Ledger protocol.
         targets:
             - local
 
@@ -2209,6 +2608,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
+        blurb: ter codes indicate that the transaction failed, but it could apply successfully in the future, usually if some other hypothetical transaction applies first.
         targets:
             - local
 
@@ -2219,6 +2619,7 @@ pages:
         supercategory: rippled API
         category: Transaction Formats
         subcategory: Transaction Results
+        blurb: tesSUCCESS is the only code that indicates a transaction succeeded. This does not always mean it accomplished what you expected it to do.
         targets:
             - local
 
@@ -2228,13 +2629,35 @@ pages:
         doc_type: References
         supercategory: rippled API
         category: Transaction Formats
+        blurb: Transaction metadata describes the outcome of the transaction in detail, regardless of whether the transaction is successful.
+        targets:
+            - local
+
+    -   md: references/rippled-api/commandline-usage.md
+        html: commandline-usage.html
+        funnel: Docs
+        doc_type: References
+        supercategory: rippled API
+        category: Commandline Usage
+        blurb: Commandline usage options for the rippled server.
+        curated_anchors:
+            - name: Available Modes
+              anchor: "#available-modes"
+            - name: Daemon Mode Options
+              anchor: "#daemon-mode-options"
+            - name: Stand-Alone Mode Options
+              anchor: "#stand-alone-mode-options"
+            - name: Client Mode Options
+              anchor: "#client-mode-options"
+            - name: Unit Tests
+              anchor: "#unit-tests"
         targets:
             - local
 
     # --------------- end "rippled API" section --------------------------------
 
     -   name: RippleAPI Reference # name is required for remote-sourced files
-        md: https://raw.githubusercontent.com/ripple/ripple-lib/0.22.0/docs/index.md
+        md: https://raw.githubusercontent.com/ripple/ripple-lib/1.0.0/docs/index.md
         html: rippleapi-reference.html
         funnel: Docs
         doc_type: References
@@ -2266,6 +2689,7 @@ pages:
               anchor: "#api-conventions"
         targets:
             - local
+            - data-api-only
 
 
 # --------------- end "Docs" section -------------------------------------------
@@ -2309,6 +2733,15 @@ pages:
         targets:
             - local
 
+    -   md: use-cases/contribute-code-to-ripple-lib.md
+        html: contribute-code-to-ripple-lib.html
+        funnel: Use Cases
+        template: template-use-case.html
+        useful_background:
+            - rippleapi-reference.html
+            - get-started-with-rippleapi-for-javascript.html
+        targets:
+            - local
 
 # Dev Tools --------------------------------------------------------------------
     -   md: dev-tools/dev-tools.md

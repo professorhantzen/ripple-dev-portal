@@ -6,12 +6,13 @@
 [Currency Code]: currency-formats.html#currency-codes
 [drops of XRP]: basic-data-types.html#specifying-currency-amounts
 [Hash]: basic-data-types.html#hashes
+[Internal Type]: serialization.html
 [Ledger Index]: basic-data-types.html#ledger-index
 [Marker]: markers-and-pagination.html
 [result code]: transaction-results.html
 [seconds since the Ripple Epoch]: basic-data-types.html#specifying-time
 [Sequence Number]: basic-data-types.html#account-sequence
-[SHA-512Half]: ledger-data-formats.html#sha512half
+[SHA-512Half]: basic-data-types.html#hashes
 [Specifying Currency Amounts]: basic-data-types.html#specifying-currency-amounts
 [Specifying Ledgers]: basic-data-types.html#specifying-ledgers
 [Specifying Time]: basic-data-types.html#specifying-time
@@ -27,7 +28,6 @@
 [crypto-conditions]: https://tools.ietf.org/html/draft-thomas-crypto-conditions-03
 [hexadecimal]: https://en.wikipedia.org/wiki/Hexadecimal
 [Interledger Protocol]: https://interledger.org/
-[Internal Type]: https://github.com/ripple/rippled/blob/master/src/ripple/protocol/impl/SField.cpp
 [RFC-1751]: https://tools.ietf.org/html/rfc1751
 [ripple-lib]: https://github.com/ripple/ripple-lib
 
@@ -46,6 +46,7 @@
   "channel_verify",
   "connect",
   "consensus_info",
+  "deposit_authorized",
   "feature",
   "fee",
   "fetch_info",

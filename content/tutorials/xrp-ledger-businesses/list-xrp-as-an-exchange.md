@@ -1,6 +1,6 @@
 # List XRP as an Exchange
 
-This document describes the steps that an exchange needs to take to list XRP. For details about other aspects of `rippled` and the XRP Ledger, see the  [Ripple Developer Center](https://ripple.com/build).
+This document describes the steps that an exchange needs to take to list XRP.
 
 ## Alpha Exchange
 
@@ -70,7 +70,7 @@ To follow Ripple's recommended best practices, Alpha Exchange should create at l
 
         * If this happens, the exchange has to make a new cold wallet address and tell its customers the new address.
 
-    * If the regular key or signer list are comromised, the exchange can regain control of the cold wallet. However, some of a malicious actor's actions cannot easily be undone: <!-- STYLE_OVERRIDE: easily -->
+    * If the regular key or signer list are compromised, the exchange can regain control of the cold wallet. However, some of a malicious actor's actions cannot easily be undone: <!-- STYLE_OVERRIDE: easily -->
 
         * The malicious actor could issue currency in the XRP Ledger by using the cold wallet, but that currency should not be valued by anyone (unless the exchange explicitly stated it was also a gateway).
 
@@ -97,7 +97,7 @@ See also:
 
 ### Balance Sheets
 
-To custody its ccustomers' XRP, Alpha Exchange must track each customer's XRP balance and its own holdings. To do this, Alpha Exchange must create and maintain an additional balance sheet or accounting system. The following table illustrates what this balance sheet might look like.
+To custody its customers' XRP, Alpha Exchange must track each customer's XRP balance and its own holdings. To do this, Alpha Exchange must create and maintain an additional balance sheet or accounting system. The following table illustrates what this balance sheet might look like.
 
 The new XRP Ledger accounts (_Alpha Hot_, _Alpha Warm_, _Alpha Cold_) are in the *User* column of the *XRP Balances on XRP Ledger* table.
 

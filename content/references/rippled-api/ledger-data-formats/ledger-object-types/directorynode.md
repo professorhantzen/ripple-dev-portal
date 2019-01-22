@@ -1,7 +1,7 @@
 # DirectoryNode
 [[Source]<br>](https://github.com/ripple/rippled/blob/5d2d88209f1732a0f8d592012094e345cbe3e675/src/ripple/protocol/impl/LedgerFormats.cpp#L44 "Source")
 
-The `DirectoryNode` object type provides a list of links to other objects in the ledger's state tree. A single conceptual _Directory_　takes the form of a doubly linked list, with one or more DirectoryNode objects each containing up to 32 [IDs](ledger-data-formats.html#tree-format) of other objects. The first object is called the root of the directory, and all objects other than the root object can be added or deleted as necessary.
+The `DirectoryNode` object type provides a list of links to other objects in the ledger's state tree. A single conceptual _Directory_　takes the form of a doubly linked list, with one or more DirectoryNode objects each containing up to 32 [IDs](ledgers.html#tree-format) of other objects. The first object is called the root of the directory, and all objects other than the root object can be added or deleted as necessary.
 
 There are two kinds of Directories:
 
@@ -55,7 +55,7 @@ There are two kinds of Directories:
 |-------------------|-----------|---------------|-------------|
 | `LedgerEntryType`   | String    | UInt16    | The value `0x0064`, mapped to the string `DirectoryNode`, indicates that this object is part of a Directory. |
 | `Flags`             | Number    | UInt32    | A bit-map of boolean flags enabled for this directory. Currently, the protocol defines no flags for DirectoryNode objects. |
-| `RootIndex`         | Number    | Hash256   | The ID of root object for this directory. |
+| `RootIndex`         | String    | Hash256   | The ID of root object for this directory. |
 | `Indexes`           | Array     | Vector256 | The contents of this Directory: an array of IDs of other objects. |
 | `IndexNext`         | Number    | UInt64    | (Optional) If this Directory consists of multiple pages, this ID links to the next object in the chain, wrapping around at the end. |
 | `IndexPrevious`     | Number    | UInt64    | (Optional) If this Directory consists of multiple pages, this ID links to the previous object in the chain, wrapping around at the beginning. |

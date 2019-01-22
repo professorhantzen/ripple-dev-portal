@@ -10,7 +10,7 @@ For a complete list of known amendments, their statuses, and IDs, see: [Known Am
 
 ## Background
 
-Any changes to transaction processing could cause servers to build a different ledger with the same set of transactions. If some _validators_ (`rippled` servers [participating in consensus](the-rippled-server.html#reasons-to-run-a-validator)) have upgraded to a new version of the software while other validators use the old version, this could cause anything from minor inconveniences to full outages. In the minor case, a minority of servers spend more time and bandwidth fetching the actual consensus ledger because they cannot build it using the transaction processing rules they already know. In the worst case, [the consensus process][] might be unable to validate new ledger versions because servers with different rules could not reach a consensus on the exact ledger to build.
+Any changes to transaction processing could cause servers to build a different ledger with the same set of transactions. If some _validators_ (`rippled` servers [participating in consensus](rippled-server-modes.html#reasons-to-run-a-validator)) have upgraded to a new version of the software while other validators use the old version, this could cause anything from minor inconveniences to full outages. In the minor case, a minority of servers spend more time and bandwidth fetching the actual consensus ledger because they cannot build it using the transaction processing rules they already know. In the worst case, [the consensus process][] might be unable to validate new ledger versions because servers with different rules could not reach a consensus on the exact ledger to build.
 
 Amendments solve this problem, so that new features can be enabled only when enough validators support those features.
 
@@ -90,7 +90,7 @@ Becoming amendment blocked is a security feature to protect applications that de
 
 The amendments that a `rippled` server is configured to vote for or against have no impact on whether the server becomes amendment blocked. A `rippled` server always follows the set of amendments enabled by the rest of the network, to the extent possible. A server only becomes amendment blocked if an enabled amendment is not included in the amendment definitions compiled into the server's source code -- in other words, if the amendment is newer than the server.
 
-If your server is amendment blocked, you must [upgrade to a new version](update-rippled.html) to sync with the network.
+If your server is amendment blocked, you must [upgrade to a new version](install-rippled.html) to sync with the network.
 
 
 #### How to Tell If Your `rippled` Server Is Amendment Blocked
@@ -149,7 +149,7 @@ If your server is not amendment blocked, the `amendment_blocked` field is not re
 
 #### How to Unblock an Amendment-Blocked `rippled` Server
 
-Upgrade to the `rippled` version that supports the amendments that are causing your server to be amendment blocked. Ripple recommends that you [upgrade to the newest `rippled` version](update-rippled.html) to unblock your server and enable it to sync with the network again.
+Upgrade to the `rippled` version that supports the amendments that are causing your server to be amendment blocked. Ripple recommends that you [upgrade to the newest `rippled` version](install-rippled.html) to unblock your server and enable it to sync with the network again.
 
 Depending on the scenario, you may be able to (and want to) unblock your server by upgrading to a `rippled` version that is older than the newest version. This is possible if the older version supports the amendments that are blocking your `rippled` server.
 
@@ -221,7 +221,7 @@ To look up which `rippled` version supports these features, see [Known Amendment
 
 If you want to see how `rippled` behaves with an amendment enabled, before that amendment gets enabled on the production network, you can run use `rippled`'s configuration file to forcibly enable a feature. This is intended for development purposes only.
 
-Because other members of the consensus network probably do not have the feature enabled, you should not use this feature while connecting to the production network. While testing with features forcibly enabled, you should run `rippled` in [Stand-Alone Mode](stand-alone-mode.html).
+Because other members of the consensus network probably do not have the feature enabled, you should not use this feature while connecting to the production network. While testing with features forcibly enabled, you should run `rippled` in [stand-alone mode](rippled-server-modes.html#reasons-to-run-a-rippled-server-in-stand-alone-mode).
 
 To forcibly enable a feature, add a `[features]` stanza to your `rippled.cfg` file. In this stanza, add the short names of the features to enable, one per line. For example:
 

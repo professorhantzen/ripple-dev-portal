@@ -1,5 +1,5 @@
 # CheckCreate
-[[Source]<br>](https://github.com/ripple/rippled/blob/develop/src/ripple/app/tx/impl/CreateCheck.cpp "Source") <!--{# TODO: change from develop to master when 0.90.0 is released #}-->
+[[Source]<br>](https://github.com/ripple/rippled/blob/master/src/ripple/app/tx/impl/CreateCheck.cpp "Source") <!--{# TODO: change from develop to master when 0.90.0 is released #}-->
 
 _Requires the [Checks Amendment](known-amendments.html#checks)._
 
@@ -23,15 +23,12 @@ Create a Check object in the ledger, which is a deferred payment that can be cas
 {% include '_snippets/tx-fields-intro.md' %}
 <!--{# fix md highlighting_ #}-->
 
-
-In addition to the [common fields](transaction-common-fields.html), a CheckCreate transaction has the following:
-
 | Field            | JSON Type           | [Internal Type][] | Description     |
 |:-----------------|:--------------------|:------------------|:----------------|
 | `Destination`    | String              | Account           | The unique address of the [account](accounts.html) that can cash the Check. |
 | `SendMax`        | [Currency Amount][] | Amount            | Maximum amount of source currency the Check is allowed to debit the sender, including [transfer fees](transfer-fees.html) on non-XRP currencies. The Check can only credit the destination with the same currency (from the same issuer, for non-XRP currencies). For non-XRP amounts, the nested field names MUST be lower-case. |
-| `DestinationTag` | Unsigned Integer    | UInt32            | _(Optional)_ Arbitrary tag that identifies the reason for the Check, or a hosted recipient to pay. |
-| `Expiration`     | Unsigned Integer    | UInt32            | _(Optional)_ Time after which the Check is no longer valid, in [seconds since the Ripple Epoch][]. |
+| `DestinationTag` | Number              | UInt32            | _(Optional)_ Arbitrary tag that identifies the reason for the Check, or a hosted recipient to pay. |
+| `Expiration`     | Number              | UInt32            | _(Optional)_ Time after which the Check is no longer valid, in [seconds since the Ripple Epoch][]. |
 | `InvoiceID`      | String              | Hash256           | _(Optional)_ Arbitrary 256-bit hash representing a specific reason or identifier for this Check. |
 
 ## Error Cases

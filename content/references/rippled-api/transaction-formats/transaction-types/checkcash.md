@@ -1,5 +1,5 @@
 # CheckCash
-[[Source]<br>](https://github.com/ripple/rippled/blob/develop/src/ripple/app/tx/impl/CashCheck.cpp "Source") <!--{# TODO: change from develop to master when 0.90.0 is released #}-->
+[[Source]<br>](https://github.com/ripple/rippled/blob/master/src/ripple/app/tx/impl/CashCheck.cpp "Source") <!--{# TODO: change from develop to master when 0.90.0 is released #}-->
 
 _Requires the [Checks Amendment](known-amendments.html#checks)._
 
@@ -22,14 +22,11 @@ Since the funds for a check are not guaranteed, redeeming a Check can fail becau
 {% include '_snippets/tx-fields-intro.md' %}
 <!--{# fix md highlighting_ #}-->
 
-
-In addition to the [common fields](transaction-common-fields.html), a CheckCash transaction has the following:
-
-| Field       | JSON Type | [Internal Type][] | Description                    |
-|:------------|:----------|:------------------|:-------------------------------|
-| `CheckID`   | String    | Hash256           | The ID of the [Check ledger object](check.html) to cash, as a 64-character hexadecimal string. |
-| `Amount`    | [Currency Amount][] | Amount  | _(Optional)_ Redeem the Check for exactly this amount, if possible. The currency must match that of the `SendMax` of the corresponding CheckCreate transaction. You must provide either this field or `DeliverMin`. |
-| `DeliverMin` | [Currency Amount][] | Amount | _(Optional)_ Redeem the Check for at least this amount and for as much as possible. The currency must match that of the `SendMax` of the corresponding CheckCreate transaction. You must provide either this field or `Amount`. |
+| Field        | JSON Type           | [Internal Type][] | Description         |
+|:-------------|:--------------------|:------------------|:--------------------|
+| `CheckID`    | String              | Hash256           | The ID of the [Check ledger object](check.html) to cash, as a 64-character hexadecimal string. |
+| `Amount`     | [Currency Amount][] | Amount            | _(Optional)_ Redeem the Check for exactly this amount, if possible. The currency must match that of the `SendMax` of the corresponding CheckCreate transaction. You must provide either this field or `DeliverMin`. |
+| `DeliverMin` | [Currency Amount][] | Amount            | _(Optional)_ Redeem the Check for at least this amount and for as much as possible. The currency must match that of the `SendMax` of the corresponding CheckCreate transaction. You must provide either this field or `Amount`. |
 
 The transaction ***must*** include either `Amount` or `DeliverMin`, but not both.
 

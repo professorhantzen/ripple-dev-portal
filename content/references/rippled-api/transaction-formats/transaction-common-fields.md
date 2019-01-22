@@ -14,8 +14,8 @@ Every transaction has the same set of common fields, plus additional fields base
 | [Memos][]          | Array of Objects | Array             | _(Optional)_ Additional arbitrary information used to identify this transaction. |
 | [Signers][]        | Array            | Array             | _(Optional)_ Array of objects that represent a [multi-signature](multi-signing.html) which authorizes this transaction. |
 | SourceTag          | Unsigned Integer | UInt32            | _(Optional)_ Arbitrary integer used to identify the reason for this payment, or a sender on whose behalf this transaction is made. Conventionally, a refund should specify the initial payment's `SourceTag` as the refund payment's `DestinationTag`. |
-| SigningPubKey      | String           | PubKey            | _(Automatically added when signing)_ Hex representation of the public key that corresponds to the private key used to sign this transaction. If an empty string, indicates a multi-signature is present in the `Signers` field instead. |
-| TxnSignature       | String           | VariableLength    | _(Automatically added when signing)_ The signature that verifies this transaction as originating from the account it says it is from. |
+| SigningPubKey      | String           | Blob              | _(Automatically added when signing)_ Hex representation of the public key that corresponds to the private key used to sign this transaction. If an empty string, indicates a multi-signature is present in the `Signers` field instead. |
+| TxnSignature       | String           | Blob              | _(Automatically added when signing)_ The signature that verifies this transaction as originating from the account it says it is from. |
 
 [auto-fillable]: #auto-fillable-fields
 [AccountTxnID]: #accounttxnid
@@ -52,7 +52,13 @@ The [`Paths` field](payment.html#paths) of the [Payment transaction][] type can 
 
 The `Flags` field can contain various options that affect how a transaction should behave. The options are represented as binary values that can be combined with bitwise-or operations to set multiple flags at once.
 
+To check whether a transaction has a given flag enabled, use the bitwise-and operator on the flag's value and the `Flags` field. A result of zero indicates the flag is disabled, and a result equal to the flag value indicates the flag is enabled. (Any other result indicates you performed the wrong operation.)
+
 Most flags only have meaning for a specific transaction type. The same bitwise value may be reused for flags on different transaction types, so it is important to pay attention to the `TransactionType` field when setting and reading flags.
+
+Bits that are not defined as flags MUST be 0. (The [fix1543 amendment](known-amendments.html#fix1543) enforces this rule on some transaction types. Most transaction types enforce this rule by default.)
+
+### Global Flags
 
 The only flag that applies globally to all transactions is as follows:
 
@@ -64,6 +70,18 @@ When using the [sign method][] (or [submit method][] in "sign-and-submit" mode),
 
 **Warning:** If you do not enable `tfFullyCanonicalSig`, it is theoretically possible for a malicious actor to modify your transaction signature so that the transaction may succeed with a different hash than expected. In the worst case, this could trick your integration into submitting the same payment multiple times. To avoid this problem, enable the `tfFullyCanonicalSig` flag on all transactions you sign.
 
+### Flag Ranges
+
+A transaction's `Flags` field can contain flags that apply at different levels or contexts. Flags for each context are limited to the following ranges:
+
+| Range Name       | Bit Mask     | Description                                |
+|:-----------------|:-------------|:-------------------------------------------|
+| Universal Flags  | `0xff000000` | Flags that apply equally to all transaction types. |
+| Type-based Flags | `0x00ff0000` | Flags with different meanings depending on the [transaction type](transaction-types.html) that uses them. |
+| Reserved Flags   | `0x0000ffff` | Flags that are not currently defined. A transaction is only valid if these flags are disabled. |
+
+**Note:** The [AccountSet transaction][] type has [its own non-bitwise flags](accountset.html#accountset-flags), which serve a similar purpose to type-based flags. [Ledger objects](ledger-object-types.html) also have a `Flags` field with different bitwise flag definitions.
+
 
 ## Memos Field
 
@@ -71,9 +89,9 @@ The `Memos` field includes arbitrary messaging data with the transaction. It is 
 
 | Field      | Type   | [Internal Type][] | Description                        |
 |:-----------|:-------|:------------------|:-----------------------------------|
-| MemoData   | String | VariableLength    | Arbitrary hex value, conventionally containing the content of the memo. |
-| MemoFormat | String | VariableLength    | Hex value representing characters allowed in URLs. Conventionally containing information on how the memo is encoded, for example as a [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml). |
-| MemoType   | String | VariableLength    | Hex value representing characters allowed in URLs. Conventionally, a unique relation (according to [RFC 5988](http://tools.ietf.org/html/rfc5988#section-4)) that defines the format of this memo. |
+| MemoData   | String | Blob              | Arbitrary hex value, conventionally containing the content of the memo. |
+| MemoFormat | String | Blob              | Hex value representing characters allowed in URLs. Conventionally containing information on how the memo is encoded, for example as a [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml). |
+| MemoType   | String | Blob              | Hex value representing characters allowed in URLs. Conventionally, a unique relation (according to [RFC 5988](http://tools.ietf.org/html/rfc5988#section-4)) that defines the format of this memo. |
 
 The MemoType and MemoFormat fields should only consist of the following characters: `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&'()*+,;=%`
 
@@ -107,7 +125,7 @@ The `Signers` field contains a [multi-signature](multi-signing.html), which has 
 |:--------------|:-------|:------------------|:--------------------------------|
 | Account       | String | AccountID         | The address associated with this signature, as it appears in the SignerList. |
 | TxnSignature  | String | Blob              | A signature for this transaction, verifiable using the `SigningPubKey`. |
-| SigningPubKey | String | PubKey            | The public key used to create this signature. |
+| SigningPubKey | String | Blob              | The public key used to create this signature. |
 
 The `SigningPubKey` must be a key that is associated with the `Account` address. If the referenced `Account` is a funded account in the ledger, then the SigningPubKey can be that account's current Regular Key if one is set. It could also be that account's Master Key, unless the [lsfDisableMaster](accountroot.html#accountroot-flags) flag is enabled. If the referenced `Account` address is not a funded account in the ledger, then the `SigningPubKey` must be the master key associated with that address.
 

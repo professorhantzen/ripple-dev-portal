@@ -43,7 +43,7 @@ Escrow provides strong guarantees that are best suited for high-value, low-quant
 
 Conditional payments have been enabled by the ["Escrow" Amendment](known-amendments.html#escrow) to the XRP Ledger Consensus Protocol since 2017-03-31. A previous version of the same functionality was available on the [Ripple Test Net](https://ripple.com/build/ripple-test-net/) by the name "Suspended Payments" (SusPay) in 2016.
 
-When testing in [stand-alone mode](stand-alone-mode.html), you can force the Escrow feature to be enabled locally regardless of the amendment status. Add the following stanza to your `rippled.cfg`:
+When testing in [stand-alone mode](rippled-server-modes.html#reasons-to-run-a-rippled-server-in-stand-alone-mode), you can force the Escrow feature to be enabled locally regardless of the amendment status. Add the following stanza to your `rippled.cfg`:
 
     [features]
     Escrow
@@ -89,7 +89,7 @@ Placing the money into escrow does not directly protect Ripple's holdings from m
 
 ### Use Case: Interledger Payments
 
-**Background:** In the quickly-developing world of financial technology, one of the core challenges is coordinating activities that cross multiple digital money systems, or ledgers. Many proposed solutions to this problem (including early views of the XRP Ledger!) can be reduced to creating "one ledger to rule them all." Ripple believes no single system can meet the needs of everyone in the world: in fact, some desirable features are mutually exclusive. Instead, Ripple believes that an interconnected network of ledgers—an _interledger_—is the true future of financial technology. The [Interledger Protocol][] defines standards for making as many systems as possible able to connect securely and smoothly.
+**Background:** In the quickly-developing world of financial technology, one of the core challenges is coordinating activities that cross multiple digital money systems, or ledgers. Many proposed solutions to this problem (including early views of the XRP Ledger!) can be reduced to creating "one ledger to rule them all." Ripple believes no single system can meet the needs of everyone in the world: in fact, some desirable features are mutually exclusive. Instead, Ripple believes that an interconnected network of ledgers—an _interledger_—is the true future of financial technology. The [Interledger Protocol][] defines standards for making as many systems as possible connect securely and smoothly.
 
 The most fundamental principle of inter-ledger payments is _conditional transfers_. Multi-hop payments have a risk problem: the more hops in the middle, the more places the payment can fail. Interledger solves this with the financial equivalent of a "[two-phase commit](https://en.wikipedia.org/wiki/Two-phase_commit_protocol)", where the two steps are (1) prepare conditional transfers, then (2) fulfill the conditions to execute the transfers. The Interledger project defined a [crypto-conditions][] specification to standardize automated ways to define and verify conditions, and settled on SHA-256 hashes as a "common denominator" of such conditions.
 
